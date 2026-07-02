@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import {
-    ActivityIndicator,
-    Button,
-    FlatList,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Button,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Pokemon } from "../../domain/entities/Pokemon";

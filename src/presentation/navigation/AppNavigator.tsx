@@ -18,12 +18,16 @@ export const AppNavigator = () => {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ title: "Pokedex Challenge" }}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="Detail"
         component={DetailScreen}
-        options={({ route }) => ({ title: route.params.pokemonName })}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );

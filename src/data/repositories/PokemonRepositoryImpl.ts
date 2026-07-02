@@ -16,32 +16,40 @@ const CACHE_KEYS = {
 
 export class PokemonRepositoryImpl implements PokemonRepository {
   //  Obtener listado con soporte offline parcial
+
   async getPokemonList(limit: number, offset: number): Promise<Pokemon[]> {
     try {
-      // Traer datos de la red primero
       const response = await apiClient.get<PokemonListResponseDTO>(
         `pokemon?limit=${limit}&offset=${offset}`,
       );
       const { results } = response.data;
 
-      const pokemonList = results.map((item) => {
-        const urlParts = item.url.split("/");
-        const id = parseInt(urlParts[urlParts.length - 2], 10);
+      const pokemonList = await Promise.all(
+        results.map(async (item) => {
+          const urlParts = item.url.split("/");
+          const id = parseInt(urlParts[urlParts.length - 2], 10);
 
-        return {
-          id,
-          name: item.name,
-          imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
-          types: [],
-          height: 0,
-          weight: 0,
-          abilities: [],
-          baseExperience: 0,
-          stats: [],
-        };
-      });
+          try {
+            const detailResponse =
+              await apiClient.get<PokemonDetailResponseDTO>(`pokemon/${id}`);
 
-      // Guardar copia local para el futuro
+            return PokemonMapper.toDomain(detailResponse.data);
+          } catch (detailError) {
+            return {
+              id,
+              name: item.name,
+              imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
+              types: [],
+              height: 0,
+              weight: 0,
+              abilities: [],
+              baseExperience: 0,
+              stats: [],
+            };
+          }
+        }),
+      );
+
       await AsyncStorage.setItem(
         CACHE_KEYS.POKEMON_LIST,
         JSON.stringify(pokemonList),
@@ -54,31 +62,25 @@ export class PokemonRepositoryImpl implements PokemonRepository {
         error,
       );
 
-      // Estrategia Fallback: Si no hay internet, buscamos en el disco
       const cachedData = await AsyncStorage.getItem(CACHE_KEYS.POKEMON_LIST);
 
       if (cachedData) {
-        // Encontró datos viejos guardados, los devolvemos para salvar la UX offline
         return JSON.parse(cachedData);
       }
 
-      // Si no hay red Y tampoco hay caché (primera vez que abre la app), lanzamos el error original
       throw error;
     }
   }
 
-  // 2. Obtener detalle con soporte offline parcial
   async getPokemonDetail(id: number): Promise<Pokemon> {
     const cacheKey = `${CACHE_KEYS.POKEMON_DETAIL_PREFIX}${id}`;
 
     try {
-      // Intento primario: API
       const response = await apiClient.get<PokemonDetailResponseDTO>(
         `pokemon/${id}`,
       );
       const domainPokemon = PokemonMapper.toDomain(response.data);
 
-      // Guardamos el detalle específico de este Pokémon
       await AsyncStorage.setItem(cacheKey, JSON.stringify(domainPokemon));
 
       return domainPokemon;
@@ -88,7 +90,6 @@ export class PokemonRepositoryImpl implements PokemonRepository {
         error,
       );
 
-      // Estrategia Fallback: Buscar este Pokémon específico en el disco
       const cachedData = await AsyncStorage.getItem(cacheKey);
 
       if (cachedData) {

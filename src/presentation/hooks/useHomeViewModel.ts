@@ -6,17 +6,23 @@ import { GetPokemonListUseCase } from "../../domain/usecases/GetPokemonListUseCa
 const pokemonRepository = new PokemonRepositoryImpl();
 const getPokemonListUseCase = new GetPokemonListUseCase(pokemonRepository);
 
+const LIMIT = 20;
 export const useHomeViewModel = () => {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [offset, setOffset] = useState<number>(0);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   const fetchPokemons = async () => {
     try {
       setIsLoading(true);
       setError(null);
+      setOffset(0);
+      setHasMore(true);
 
-      const data = await getPokemonListUseCase.execute(20, 0);
+      const data = await getPokemonListUseCase.execute(LIMIT, 0);
       setPokemons(data);
     } catch (err) {
       setError(
@@ -27,6 +33,31 @@ export const useHomeViewModel = () => {
     }
   };
 
+  const fetchNextPage = async () => {
+    if (isLoading || isFetchingMore || !hasMore) return;
+
+    try {
+      setIsFetchingMore(true);
+      const nextOffset = offset + LIMIT;
+
+      const newPokemons = await getPokemonListUseCase.execute(
+        LIMIT,
+        nextOffset,
+      );
+
+      if (newPokemons.length === 0) {
+        setHasMore(false);
+      } else {
+        setPokemons((prev) => [...prev, ...newPokemons]);
+        setOffset(nextOffset);
+      }
+    } catch (err) {
+      console.error("Error cargando más Pokémon:", err);
+    } finally {
+      setIsFetchingMore(false);
+    }
+  };
+
   useEffect(() => {
     fetchPokemons();
   }, []);
@@ -34,7 +65,9 @@ export const useHomeViewModel = () => {
   return {
     pokemons,
     isLoading,
+    isFetchingMore,
     error,
     refetch: fetchPokemons,
+    fetchNextPage,
   };
 };

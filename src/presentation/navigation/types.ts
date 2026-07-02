@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export type RootStackParamList = {
   Home: undefined;
-  Detail: { pokemonId: number; pokemonName: string };
+  Detail: { pokemonId: number };
 };
 
 export type NavigationProps<T extends keyof RootStackParamList> =

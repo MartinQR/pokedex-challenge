@@ -7,7 +7,7 @@ Este proyecto implementa una solución móvil para la visualización de la Poké
 <table align="center" width="100%">
   <tr>
     <td align="center" width="25%" valign="top">
-      <b>Menu</b><br /><br />
+      <b>Home</b><br /><br />
       <img src="./assets/home.png" width="220" alt="Pantalla principal de la Pokédex" />
     </td>
     <td align="center" width="25%" valign="top">
@@ -58,9 +58,9 @@ Para desarrollar el reto, elegí un stack basado en estándares de la industria 
 
 3. Manejo Centralizado de Errores: Controlé las fallas de red mediante bloques try/catch dentro de los ViewModels, mostrando alertas claras al usuario e incluyendo un botón de Reintento para recuperar los datos sin reiniciar la app.
 
-4. Accesibilidad: Adapté la aplicación para que sea compatible con lectores de pantalla mediante etiquetas nativas, optimicé el tamaño de las zonas de toque para facilitar la navegación y asegurar un buen contraste y legibilidad de los textos.
+4. Accesibilidad: Adapté la aplicación para que sea compatible con lectores de pantalla mediante etiquetas nativas y mensajes descriptivos, optimicé el tamaño de las zonas de toque para facilitar la navegación y asegurar un buen contraste y legibilidad de los textos.
 
-5. Optimizaciones de Rendimiento: Utilicé el hook useCallback para congelar las referencias de las funciones de la lista, evitando re-renders innecesarios en las tarjetas de los Pokémon, e integré la caché local offline.
+5. Optimizaciones de Rendimiento: Utilicé el hook useCallback para congelar las referencias de las funciones de la lista, evitando re-renders innecesarios en las tarjetas de los Pokémon, e integré el caché local offline.
 
 6. Calidad de Código: Configuré ESLint para auditar el código TypeScript en tiempo real y asegurar las reglas de los hooks, junto con Prettier para estandarizar automáticamente el formato del código.
 
@@ -82,3 +82,20 @@ Para desarrollar el reto, elegí un stack basado en estándares de la industria 
    ```bash
    npx expo start
    ```
+
+### Instalación y Encendido
+
+1. Ejecutar Eslint:
+   ```bash
+   npm run lint
+   ```
+2. Ejecutar Prettier:
+   ```bash
+   npm run format
+   ```
+
+## Oportunidades y mejora
+
+### Pruebas Unitarias
+
+Dejé estructurados los archivos de prueba (`HomeScreen.test.tsx` y `DetailScreen.test.tsx`) usando Jest y React Testing Library para que vieran cómo los planteé. Sin embargo, no los pude correr localmente por problemas imprevistos de compatibilidad entre mi versión de Node y las dependencias de Jest. Queda pendiente ajustar la configuración del entorno para poder correrlos sin problemas y seguir agregando más casos de prueba.

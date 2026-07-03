@@ -19,9 +19,9 @@ Este proyecto implementa una solución móvil para la visualización de la Poké
       <img src="./assets/detail3.png" width="220" alt="Detalle del Pokémon 2" />
     </td>
     <td align="center" width="25%" valign="top">
-      <video src="" width="220" style="display: block;" autoplay muted loop playsinline>
-https://github.com/user-attachments/assets/e0a39620-8a0f-40e0-bce8-38ca7123c98c
-</video>
+     <b>Video Demo</b><br /><br />
+      <video src="https://github.com/user-attachments/assets/5c367ba6-b3f1-4328-85b8-c0fc74ea4d8f" width="230" style="display: block;" autoplay muted loop playsinline>
+      </video>
     </td>
   </tr>
 </table>

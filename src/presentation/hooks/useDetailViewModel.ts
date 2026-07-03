@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PokemonRepositoryImpl } from "../../data/repositories/PokemonRepositoryImpl";
 import { Pokemon } from "../../domain/entities/Pokemon";
 import { GetPokemonDetailUseCase } from "../../domain/usecases/GetPokemonDetailUseCase";
@@ -11,26 +11,27 @@ export const useDetailViewModel = (pokemonId: number) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPokemonDetail = async () => {
+  const fetchPokemonDetail = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
 
       const data = await getPokemonDetailUseCase.execute(pokemonId);
       setPokemon(data);
-    } catch (err) {
+    } catch {
       setError("No se pudo cargar la información detallada del Pokémon.");
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [pokemonId]);
 
   useEffect(() => {
     if (pokemonId) {
-      fetchPokemonDetail();
+      Promise.resolve().then(() => {
+        fetchPokemonDetail();
+      });
     }
-  }, [pokemonId]);
-
+  }, [pokemonId, fetchPokemonDetail]); // 👈 =
   return {
     pokemon,
     isLoading,

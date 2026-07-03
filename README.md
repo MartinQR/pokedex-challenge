@@ -2,6 +2,25 @@
 
 Este proyecto implementa una solución móvil para la visualización de la Pokédex utilizando la PokeAPI pública, desarrollada con un enfoque de código limpio, mantenible y escalable.
 
+## 📸 Evidencia de Funcionamiento
+
+<table align="center">
+  <tr>
+    <td align="center" width="33.3%">
+      <b>Menu</b><br />
+      <img src="./assets/home.png" width="220" height="auto" alt="Pantalla principal de la Pokédex" />
+    </td>
+    <td align="center" width="33.3%">
+      <b>Detalle - 1</b><br />
+      <img src="./assets/detail1.png" width="220" height="auto" alt="Detalle del Pokémon 1" />
+    </td>
+    <td align="center" width="33.3%">
+      <b>Detalle - Habilidades</b><br />
+      <img src="./assets/detail3.png" width="220" height="auto" alt="Detalle del Pokémon 2" />
+    </td>
+  </tr>
+</table>
+
 ## 🛠️ Arquitectura y Decisiones Técnicas
 
 Para cumplir con los requerimientos técnicos y asegurar un código limpio, robusto y escalable, implementé las siguientes soluciones:
@@ -10,21 +29,35 @@ Para cumplir con los requerimientos técnicos y asegurar un código limpio, robu
 
 La aplicación está dividida en tres capas desacopladas con responsabilidades únicas:
 
-- **Domain (Dominio):** Contiene el corazón del negocio (Entidades, Interfaces de Repositorios y Casos de Uso) en TypeScript puro, totalmente independiente de librerías externas o frameworks de UI.
+- **Domain (Dominio):** Contiene el corazón del negocio (Entidades, Interfaces de Repositorios y Casos de Uso) en TypeScript, totalmente independiente de librerías externas o frameworks de UI.
 
-- **Data (Datos):** Implementa el consumo de red y almacenamiento local. Mapea las respuestas de la API (`DTOs`) hacia las entidades de dominio usando el patrón _Mapper_, evitando que cambios en la API rompan la interfaz.
+- **Data (Datos):** Implementa el consumo de red y almacenamiento local. Mapea las respuestas de la API (`DTOs`) hacia las entidades de dominio usando el patrón Mapper, evitando que cambios en la API rompan la interfaz.
 
-- **Presentation (Presentación):** Implementa el patrón **MVVM** mediante _Custom Hooks_ que manejan de forma reactiva el estado de la UI (Loading, Success, Error y Empty State).
+- **Presentation (Presentación):** Implementa el patrón **MVVM** mediante Custom Hooks que manejan de forma reactiva el estado de la UI (Loading, Success, Error y Empty State).
 
-### 2. Cliente de Red (Axios)
+## 🚀 Stack Tecnológico y Justificación
 
-Se seleccionó **Axios** como equivalente directo a _Retrofit_ en desarrollo nativo. Permite centralizar la URL base, manejar configuraciones globales de red como `timeout` para conexiones lentas y facilitar el manejo centralizado de errores.
+Para desarrollar el reto, elegí un stack basado en estándares de la industria móvil, priorizando agilidad, tipado seguro y rendimiento:
 
-### 3. Persistencia Local (Soporte Offline Parcial)
+- **React Native con Expo:** Lo seleccioné para unificar el desarrollo en una sola base de código robusta para Android e iOS, agilizando la configuración inicial del entorno y garantizando una interfaz fluida, consistente y adaptable a diferentes tamaños de pantalla.
+- **TypeScript:** Lo decidí implementar para asegurar un tipado estricto en la arquitectura, previniendo errores en tiempo de ejecución y garantizando contratos claros.
+- **Axios:** Lo elegí por encima de fetch para centralizar la configuración de red, manejar límites de tiempo (timeout) y estructurar un cliente global limpio.
+- **React Navigation (Native Stack):** Lo seleccioné como el equivalente funcional a Navigation con Fragments, garantizando transiciones fluidas entre pantallas y gestionando el envío de parámetros de forma segura bajo el ciclo de vida nativo.
+- **AsyncStorage:** Lo integré para cumplir con el requisito de persistencia local mediante una estrategia de caché en la capa de datos. Si la aplicación se queda sin internet, el repositorio detecta la falla y recupera de forma automática la última información guardada en el dispositivo, asegurando que la app siga funcionando y ofreciendo una experiencia offline parcial.
 
-Utilizando `@react-native-async-storage/async-storage`, implementé una estrategia de caché en la capa de datos. Si la petición de red falla por falta de conectividad, el repositorio intercepta el error y recupera de forma automática la última copia guardada en el dispositivo, garantizando la continuidad de la app y una experiencia de usuario fluida.
+## 🌟 Requisitos Adicionales Completados
 
----
+1. Carga Incremental (Scroll Infinito): Implementé un scroll infinito utilizando el componente FlatList con la propiedad onEndReached para disparar la paginación por demanda, optimizando el consumo de memoria al cargar más Pokémon solo cuando el usuario lo requiere.
+
+2. Mejoras de UI/UX: Interfaz interactiva con estados visuales de carga (ActivityIndicator) , paletas de colores dinfámicas adaptadas según el tipo principal de cada Pokémon y diseño responsivo en diferentes tamaños de pantalla
+
+3. Manejo Centralizado de Errores: Controlé las fallas de red mediante bloques try/catch dentro de los ViewModels, mostrando alertas claras al usuario e incluyendo un botón de Reintento para recuperar los datos sin reiniciar la app.
+
+4. Accesibilidad: Adapté la aplicación para que sea compatible con lectores de pantalla mediante etiquetas nativas, optimicé el tamaño de las zonas de toque para facilitar la navegación y asegurar un buen contraste y legibilidad de los textos.
+
+5. Optimizaciones de Rendimiento: Utilicé el hook useCallback para congelar las referencias de las funciones de la lista, evitando re-renders innecesarios en las tarjetas de los Pokémon, e integré la caché local offline.
+
+6. Calidad de Código: Configuré ESLint para auditar el código TypeScript en tiempo real y asegurar las reglas de los hooks, junto con Prettier para estandarizar automáticamente el formato del código.
 
 ## 🚀 Instrucciones de Ejecución
 
@@ -41,7 +74,6 @@ Utilizando `@react-native-async-storage/async-storage`, implementé una estrateg
    npm install
    ```
 3. Correr el proyecto:
-
-   ```npx expo start
-
+   ```bash
+   npx expo start
    ```

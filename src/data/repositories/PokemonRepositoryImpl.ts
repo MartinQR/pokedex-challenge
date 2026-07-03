@@ -34,7 +34,7 @@ export class PokemonRepositoryImpl implements PokemonRepository {
               await apiClient.get<PokemonDetailResponseDTO>(`pokemon/${id}`);
 
             return PokemonMapper.toDomain(detailResponse.data);
-          } catch (detailError) {
+          } catch {
             return {
               id,
               name: item.name,

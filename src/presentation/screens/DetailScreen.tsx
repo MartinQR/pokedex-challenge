@@ -27,7 +27,7 @@ export const DetailScreen = () => {
     return (
       <View style={styles.centerContainer}>
         <ActivityIndicator size="large" color="#ef5350" />
-        <Text style={styles.infoText}>Cargando detalles...</Text>
+        <Text style={styles.infoText}>Loading details...</Text>
       </View>
     );
   }
@@ -36,9 +36,9 @@ export const DetailScreen = () => {
     return (
       <View style={styles.centerContainer}>
         <Text style={styles.errorText}>
-          {error || "Ocurrió un error inesperado"}
+          {error || "An unexpected error occurred."}
         </Text>
-        <Button title="Reintentar" onPress={refetch} color="#ef5350" />
+        <Button title="Retry" onPress={refetch} color="#ef5350" />
       </View>
     );
   }
@@ -56,6 +56,9 @@ export const DetailScreen = () => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
           activeOpacity={0.7}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Return to the Pokémon list"
         >
           <Text
             style={[styles.backButtonText, { color: typeConfig.textColor }]}
@@ -85,18 +88,33 @@ export const DetailScreen = () => {
             source={{ uri: pokemon.imageUrl }}
             style={styles.image}
             resizeMode="contain"
+            accessible={true}
+            accessibilityRole="image"
+            accessibilityLabel={`Official image of ${pokemon.name}`}
           />
 
           <View style={styles.row}>
-            <View style={styles.badgeInfo}>
+            <View
+              style={styles.badgeInfo}
+              accessible={true}
+              accessibilityLabel={`Height: ${pokemon.height / 10} metros`}
+            >
               <Text style={styles.badgeLabel}>Height</Text>
               <Text style={styles.badgeValue}>{pokemon.height / 10} m</Text>
             </View>
-            <View style={styles.badgeInfo}>
+            <View
+              style={styles.badgeInfo}
+              accessible={true}
+              accessibilityLabel={`Weight: ${pokemon.weight / 10} kilograms`}
+            >
               <Text style={styles.badgeLabel}>Weight</Text>
               <Text style={styles.badgeValue}>{pokemon.weight / 10} kg</Text>
             </View>
-            <View style={styles.badgeInfo}>
+            <View
+              style={styles.badgeInfo}
+              accessible={true}
+              accessibilityLabel={`Base experience: ${pokemon.baseExperience} `}
+            >
               <Text style={styles.badgeLabel}>Base Exp</Text>
               <Text style={styles.badgeValue}>{pokemon.baseExperience}</Text>
             </View>
@@ -144,7 +162,12 @@ export const DetailScreen = () => {
           <Text style={styles.sectionTitle}>Base Stats</Text>
           <View style={styles.statsContainer}>
             {pokemon.stats.map((stat) => (
-              <View key={stat.name} style={styles.statRow}>
+              <View
+                key={stat.name}
+                style={styles.statRow}
+                accessible={true}
+                accessibilityLabel={`Statistics ${stat.name}: ${stat.value} pointsf.`}
+              >
                 <Text style={styles.statName}>{stat.name.toUpperCase()}</Text>
                 <View style={styles.barContainer}>
                   <View
@@ -253,20 +276,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 8,
     backgroundColor: "#F8F9FA",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
     borderRadius: 16,
     minWidth: 90,
     borderWidth: 1,
     borderColor: "#E9ECEF",
   },
   badgeLabel: {
-    fontSize: 11,
+    fontSize: 14,
     color: "#7F8C8D",
     fontWeight: "600",
   },
   badgeValue: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "bold",
     color: "#2C3E50",
     marginTop: 4,

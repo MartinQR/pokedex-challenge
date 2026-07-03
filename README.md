@@ -4,20 +4,26 @@ Este proyecto implementa una solución móvil para la visualización de la Poké
 
 ## 📸 Evidencia de Funcionamiento
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
-    <td align="center" width="33.3%">
-      <b>Menu</b><br />
-      <img src="./assets/home.png" width="220" height="auto" alt="Pantalla principal de la Pokédex" />
+    <td align="center" width="25%" valign="top">
+      <b>Menu</b><br /><br />
+      <img src="./assets/home.png" width="220" alt="Pantalla principal de la Pokédex" />
     </td>
-    <td align="center" width="33.3%">
-      <b>Detalle - 1</b><br />
-      <img src="./assets/detail1.png" width="220" height="auto" alt="Detalle del Pokémon 1" />
+    <td align="center" width="25%" valign="top">
+      <b>Detalle - 1</b><br /><br />
+      <img src="./assets/detail1.png" width="220" alt="Detalle del Pokémon 1" />
     </td>
-    <td align="center" width="33.3%">
-      <b>Detalle - Habilidades</b><br />
-      <img src="./assets/detail3.png" width="220" height="auto" alt="Detalle del Pokémon 2" />
+    <td align="center" width="25%" valign="top">
+      <b>Detalle - Habilidades</b><br /><br />
+      <img src="./assets/detail3.png" width="220" alt="Detalle del Pokémon 2" />
     </td>
+    <td align="center" width="25%" valign="top">
+      <b>Video Demo</b><br /><br />
+
+      </video>
+    </td>
+
   </tr>
 </table>
 
